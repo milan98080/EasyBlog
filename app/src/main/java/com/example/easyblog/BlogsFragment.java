@@ -58,7 +58,7 @@ public class BlogsFragment extends Fragment {
         postAdapter = new PostAdapter(getContext(),list);
         recyclerView.setAdapter(postAdapter);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 

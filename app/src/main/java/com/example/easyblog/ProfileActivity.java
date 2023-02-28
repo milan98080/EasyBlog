@@ -68,11 +68,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                Fragment mFragment = null;
-                mFragment = new ProfileFragment();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout, mFragment).commit();
             }
         });
 
@@ -133,7 +128,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                 }
             });
+            finish();
         }
+
 
     }
 

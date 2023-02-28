@@ -67,11 +67,6 @@ public class AddPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                Fragment mFragment = null;
-                mFragment = new BlogsFragment();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout, mFragment).commit();
             }
         });
 
@@ -145,7 +140,7 @@ public class AddPostActivity extends AppCompatActivity {
                             } else {
                                 user_posts_reference.child(key).setValue(map);
                             }
-                            Toast.makeText(AddPostActivity.this, "Post Updated Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddPostActivity.this, "Post Updated Successfully, Refresh to view changes", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                             post.setVisibility(View.VISIBLE);
                         }
@@ -155,6 +150,7 @@ public class AddPostActivity extends AppCompatActivity {
 
                         }
                     });
+                    finish();
                 }
 
             }
@@ -176,10 +172,11 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     private void uploadprofileimagetofirebase() {
-
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
         DatabaseReference user_posts_reference = FirebaseDatabase.getInstance().getReference().child("userposts");
+        DatabaseReference user_profile_reference = FirebaseDatabase.getInstance().getReference().child("userprofile");
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference uploader = storage.getReference("postimages/"+ "img" + System.currentTimeMillis());
         uploader.putFile(filepath)
@@ -190,16 +187,42 @@ public class AddPostActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 final Map<String,Object> map=new HashMap<>();
-                                map.put("uimage", uri.toString());
-                                user_posts_reference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                user_profile_reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if(snapshot.exists()){
-                                            user_posts_reference.child(key).updateChildren(map);
-                                        }else{
-                                            user_posts_reference.child(key).setValue(map);
+                                        User userProfile = snapshot.getValue(User.class);
+                                        String usname = userProfile.uname;
+                                        String usemail = userProfile.uemail;
+                                        String usimage = userProfile.uimage;
+                                        final Map<String, Object> map = new HashMap<>();
+                                        map.put("uimage", uri.toString());
+                                        map.put("UserID", UserID);
+                                        map.put("timestamp", ServerValue.TIMESTAMP);
+                                        map.put("post_key", key);
+                                        map.put("uname", usname);
+                                        map.put("email", usemail);
+                                        map.put("profile_image", usimage);
+                                        map.put("time", timeStamp);
+                                            user_posts_reference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    if (snapshot.exists()) {
+                                                        user_posts_reference.child(key).updateChildren(map);
+                                                    } else {
+                                                        user_posts_reference.child(key).setValue(map);
+                                                    }
+                                                    progressBar.setVisibility(View.GONE);
+                                                    post.setVisibility(View.VISIBLE);
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
                                         }
-                                    }
+
+
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {

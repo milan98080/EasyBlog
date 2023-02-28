@@ -6,8 +6,10 @@ public class postdataholder {
     public postdataholder(String full_name, String email, String title, String date, String description, String pimage) {
         this.full_name = full_name;
         this.email = email;
+        if(title.length()==0){title = " ";}
         this.title = title;
         this.date = date;
+        if(description.length()==0){description = " ";}
         this.description = description;
         this.pimage = pimage;
     }
