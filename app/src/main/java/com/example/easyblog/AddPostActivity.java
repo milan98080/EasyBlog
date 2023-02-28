@@ -54,7 +54,7 @@ public class AddPostActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        key = FirebaseAuth.getInstance().getCurrentUser().getUid()+System.currentTimeMillis();
+        key = System.currentTimeMillis()+FirebaseAuth.getInstance().getCurrentUser().getUid();
         setContentView(R.layout.activity_add_post);
         progressBar = findViewById(R.id.progress_bar);
         img = (ImageView) findViewById(R.id.blog_post_img);
