@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "350963909526",
+    "project_id": "easyblog-678c5",
+    "storage_bucket": "easyblog-678c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350963909526:android:ca3ee5e570ab86d7c553b7",
+        "android_client_info": {
+          "package_name": "com.example.easyblog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350963909526-s6kae2gb5qn720li47kdfe21lqki6ga9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJbKJDJu4NjqSPsrf4h0O92SIxTZyEvsU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350963909526-s6kae2gb5qn720li47kdfe21lqki6ga9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
