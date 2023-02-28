@@ -2,27 +2,30 @@ package com.example.easyblog;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.example.easyblog.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
+
 public class MainActivity extends AppCompatActivity {
-    Button profileBtn;
     private FirebaseAuth mAuth;
     ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getUid()==null)
+        String UserID = mAuth.getUid();
+
+
+        if(UserID==null || UserID.length()==0)
         {
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
         }
+
+
+
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

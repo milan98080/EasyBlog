@@ -79,14 +79,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
-                android:layout_width="150dp"
-                android:id="@+id/blog_post_btn"
-                android:layout_height="64dp"
-                android:text=" POST"
-                android:layout_margin="12dp"
-                android:textSize="16sp"
-                />
+
             <Button
                 android:layout_width="150dp"
                 android:id="@+id/blog_back_btn"
@@ -96,6 +89,16 @@
                 android:textSize="16sp"
                 android:backgroundTint="@color/red"
                 />
+
+            <Button
+                android:layout_width="150dp"
+                android:id="@+id/blog_post_btn"
+                android:layout_height="64dp"
+                android:text=" POST"
+                android:layout_margin="12dp"
+                android:textSize="16sp"
+                />
+
         </LinearLayout>
         <ProgressBar
             android:layout_width="24dp"

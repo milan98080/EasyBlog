@@ -63,7 +63,6 @@ public class AddPostActivity extends AppCompatActivity {
         back = (Button) findViewById(R.id.blog_back_btn);
         title = (EditText) findViewById(R.id.blog_add_title);
         description = (EditText) findViewById(R.id.blod_add_description);
-        Toast.makeText(this, key, Toast.LENGTH_SHORT).show();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

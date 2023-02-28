@@ -6,11 +6,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="3dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="30dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/top_profile_image"
+                android:layout_marginLeft="20dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:src="@drawable/logo"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/top_user_name"
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="6dp"
+                android:text="Easy Blog"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:layout_width="match_parent"

@@ -5,24 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BlogsFragment">
+    tools:context=".BlogsFragment"
+    android:layout_marginTop="50dp">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="10dp"
->
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Username"
-            android:textColor="@color/black"
-            android:textStyle="bold"></TextView>
-    </androidx.cardview.widget.CardView>
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
