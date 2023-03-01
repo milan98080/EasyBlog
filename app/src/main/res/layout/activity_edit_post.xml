@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginVertical="16dp"
     android:layout_marginHorizontal="32dp"
-    tools:context=".ProfileActivity">
+    tools:context=".AddPostActivity">
 
 
     <LinearLayout
@@ -18,9 +18,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Profile"
+            android:text="Edit Blog"
             android:textStyle="bold"
             android:textSize="32sp" />
+
 
 
     </LinearLayout>
@@ -33,88 +34,84 @@
         android:layout_marginVertical="32dp"
         android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/edit_profile_img"
-            android:layout_width="250dp"
+        <ImageView
+            android:id="@+id/blog_post_img"
+            android:layout_width="match_parent"
             android:layout_height="250dp"
             android:src="@drawable/baseline_person_pin_24"
             android:layout_gravity="center"/>
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/browse_img_profile"
-                android:hint="Browse"
-                android:textSize="20sp"
-                android:padding="10dp"
+                android:id="@+id/browse_post_img"
+                android:text="Browse"
+                android:textSize="18dp"
+                android:padding="12dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="12dp"
                 />
 
             <Button
                 android:layout_width="wrap_content"
+                android:id="@+id/delete_browsed_image"
                 android:layout_height="wrap_content"
-                android:id="@+id/delete_img_profile"
-                android:hint="Delete Image"
-                android:textSize="20sp"
-                android:padding="10dp"
-                android:layout_marginTop="12dp"
+                android:text=" delete image"
+                android:layout_margin="12dp"
+                android:textSize="18dp"
                 android:backgroundTint="@color/red"
+                android:layout_marginTop="12dp"
+                android:padding="12dp"
                 />
 
         </LinearLayout>
-
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/profile_full_name"
-            android:hint="Full Name"
+            android:id="@+id/blog_add_title"
+            android:hint="Title"
             android:textSize="20sp"
             android:background="@drawable/rounded_corner"
-            android:padding="16dp"
+            android:padding="10dp"
             android:layout_marginTop="12dp"
             />
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/email_profile"
-            android:hint="Email or username"
-            android:inputType="textEmailAddress"
+            android:layout_height="100dp"
+            android:id="@+id/blog_add_description"
+            android:hint="Description"
             android:textSize="20sp"
             android:background="@drawable/rounded_corner"
-            android:padding="16dp"
+            android:padding="10dp"
             android:layout_marginTop="12dp"
             />
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="The signedup email will be the login email."
-            android:textSize="15sp"
-            android:textColor="@color/red"
-            />
+            android:layout_height="wrap_content">
 
+            <Button
+                android:layout_width="150dp"
+                android:id="@+id/blog_back_btn"
+                android:layout_height="64dp"
+                android:text=" BACK"
+                android:layout_margin="12dp"
+                android:textSize="16sp"
+                android:backgroundTint="@color/red"
+                />
 
+            <Button
+                android:layout_width="150dp"
+                android:id="@+id/blog_post_btn"
+                android:layout_height="64dp"
+                android:text=" POST"
+                android:layout_margin="12dp"
+                android:textSize="16sp"
+                />
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:id="@+id/edit_profile"
-            android:layout_height="64dp"
-            android:text=" EDIT Details"
-            android:layout_marginTop="12dp"
-            android:textSize="16sp"
-            />
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:id="@+id/cancel"
-            android:layout_height="64dp"
-            android:text=" back"
-            android:layout_marginTop="12dp"
-            android:backgroundTint="@color/red"
-            android:textSize="16sp"
-            />
-
+        </LinearLayout>
         <ProgressBar
             android:layout_width="24dp"
             android:layout_height="64dp"
@@ -124,6 +121,7 @@
             android:layout_marginTop="12dp"/>
 
     </LinearLayout>
+
 
 
 </RelativeLayout>

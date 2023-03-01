@@ -40,7 +40,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddPostActivity extends AppCompatActivity {
+public class EditPostActivity extends AppCompatActivity {
     String UserID;
     FirebaseUser user;
     ProgressBar progressBar;
@@ -54,23 +54,38 @@ public class AddPostActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        key = System.currentTimeMillis()+FirebaseAuth.getInstance().getCurrentUser().getUid();
+        key = getIntent().getStringExtra("postkey");
         setContentView(R.layout.activity_edit_post);
         progressBar = findViewById(R.id.progress_bar);
         img = (ImageView) findViewById(R.id.blog_post_img);
         browse = (Button) findViewById(R.id.browse_post_img);
-        delete_image = (Button) findViewById(R.id.delete_browsed_image);
         post = (Button) findViewById(R.id.blog_post_btn);
         back = (Button) findViewById(R.id.blog_back_btn);
         title = (EditText) findViewById(R.id.blog_add_title);
         description = (EditText) findViewById(R.id.blog_add_description);
-        back.setOnClickListener(new View.OnClickListener() {
+        delete_image = (Button) findViewById(R.id.delete_browsed_image);
+
+        DatabaseReference user_posts_reference = FirebaseDatabase.getInstance().getReference().child("userposts");
+        user_posts_reference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                finish();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                UserPostsEdit userProfile = snapshot.getValue(UserPostsEdit.class);
+                String ueimage = userProfile.uimage;
+                String uetitle = userProfile.title;
+                String uedescription = userProfile.description;
+
+                title.setText(uetitle);
+                description.setText(uedescription);
+                Picasso.get().load(ueimage).into(img);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-
 
 
         delete_image.setOnClickListener(new View.OnClickListener() {
@@ -82,11 +97,19 @@ public class AddPostActivity extends AppCompatActivity {
         });
 
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+
 
         browse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImagePicker.with(AddPostActivity.this)
+                ImagePicker.with(EditPostActivity.this)
                         .crop()	    			//Crop image(Optional), Check Customization for more option
                         .compress(1024)			//Final image size will be less than 1 MB(Optional)
                         .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
@@ -111,49 +134,37 @@ public class AddPostActivity extends AppCompatActivity {
         post.setVisibility(View.GONE);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         UserID = user.getUid();
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
         DatabaseReference user_profile_reference = FirebaseDatabase.getInstance().getReference().child("userprofile");
         DatabaseReference user_posts_reference = FirebaseDatabase.getInstance().getReference().child("userposts");
         user_profile_reference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User userProfile = snapshot.getValue(User.class);
-                String usname = userProfile.uname;
-                String usemail = userProfile.uemail;
-                String usimage = userProfile.uimage;
-                    final Map<String, Object> map = new HashMap<>();
-                    map.put("UserID", UserID);
-                    map.put("timestamp", ServerValue.TIMESTAMP);
-                    map.put("post_key", key);
-                    map.put("uname", usname);
-                    map.put("email", usemail);
-                    map.put("profile_image", usimage);
-                    map.put("title", title.getText().toString());
-                    map.put("description", description.getText().toString());
-                    map.put("time", timeStamp);
-                    map.put("uimage", uspostimage);
+                final Map<String, Object> map = new HashMap<>();
+                map.put("title", title.getText().toString());
+                map.put("description", description.getText().toString());
+                map.put("uimage" , uspostimage);
+                if (title.getText().length() == 0 && description.getText().length() == 0 && uspostimage == null) {
+                    Toast.makeText(EditPostActivity.this, "Cannot Post Empty Blog", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    post.setVisibility(View.VISIBLE);
+                }else {
+                    user_posts_reference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            user_posts_reference.child(key).updateChildren(map);
+                            Toast.makeText(EditPostActivity.this, "Post Updated Successfully", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                            post.setVisibility(View.VISIBLE);
+                        }
 
-                    if (title.getText().length() == 0 && description.getText().length() == 0 && uspostimage == null) {
-                        Toast.makeText(AddPostActivity.this, "Cannot Post Empty Blog", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
-                        post.setVisibility(View.VISIBLE);
-                    } else {
-                        user_posts_reference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                user_posts_reference.child(key).updateChildren(map);
-                                Toast.makeText(AddPostActivity.this, "Post Updated Successfully", Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
-                                post.setVisibility(View.VISIBLE);
-                            }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                        finish();
+                        }
+                    });
+                    finish();
                 }
+
             }
 
             @Override

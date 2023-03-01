@@ -68,11 +68,13 @@ public class BlogsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     UserPosts userPosts = dataSnapshot.getValue(UserPosts.class);
                     list.add(userPosts);
                 }
                 postAdapter.notifyDataSetChanged();
+                recyclerView.scrollToPosition(list.size()-1);
+
 
             }
 

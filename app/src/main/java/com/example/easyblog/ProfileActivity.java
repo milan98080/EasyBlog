@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -47,9 +48,11 @@ public class ProfileActivity extends AppCompatActivity {
     ProgressBar progressBar;
     Uri filepath;
     EditText name , email;
-    Button browse , edit , cancel ;
+    Button browse , edit , cancel , delete_image ;
 
     ImageView image;
+
+    String pimage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.edit_profile_img);
         browse = (Button) findViewById(R.id.browse_img_profile);
         edit = (Button) findViewById(R.id.edit_profile);
+        delete_image = (Button) findViewById(R.id.delete_img_profile);
         cancel = (Button) findViewById(R.id.cancel);
         name = (EditText) findViewById(R.id.profile_full_name);
         email = (EditText) findViewById(R.id.email_profile);
@@ -82,6 +86,17 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+
+        delete_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                image.setImageURI(null);
+                pimage = "https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png";
+                Picasso.get().load("https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png").into(image);
+            }
+        });
+
+
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
         final Map<String,Object> map=new HashMap<>();
         map.put("uname",name.getText().toString());
         map.put ("uemail", email.getText().toString());
+        map.put("uimage", pimage);
         if(name == null || name.length()==0)
         {
             name.setError("Required");
@@ -113,14 +129,34 @@ public class ProfileActivity extends AppCompatActivity {
             dbreference.child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        dbreference.child(UserID).updateChildren(map);
-                    } else {
-                        dbreference.child(UserID).setValue(map);
-                    }
+                    dbreference.child(UserID).updateChildren(map);
                     Toast.makeText(ProfileActivity.this, "Details Updated Successfully", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                     edit.setVisibility(View.VISIBLE);
+
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("userposts");
+
+                    Query query = ref.orderByChild("UserID").equalTo(UserID);
+
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                postSnapshot.child("email").getRef().setValue(email.getText().toString());
+                                postSnapshot.child("profile_image").getRef().setValue(pimage);
+                                postSnapshot.child("uname").getRef().setValue(name.getText().toString());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle errors
+                        }
+                    });
+
+
+
+
                 }
 
                 @Override
@@ -170,10 +206,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void uploadprofileimagetofirebase(){
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        UserID = user.getUid();
-        DatabaseReference dbreference = FirebaseDatabase.getInstance().getReference().child("userprofile");
-
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference uploader = storage.getReference("profileimages/"+ "img" + System.currentTimeMillis());
         uploader.putFile(filepath)
@@ -183,29 +215,12 @@ public class ProfileActivity extends AppCompatActivity {
                         uploader.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                final Map<String,Object> map=new HashMap<>();
-                                map.put("uimage", uri.toString());
-                                dbreference.child(UserID).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if(snapshot.exists()){
-                                            dbreference.child(UserID).updateChildren(map);
-                                        }else{
-                                            dbreference.child(UserID).setValue(map);
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
+                                pimage = uri.toString();
 
                             }
                         });
                         progressBar.setVisibility(View.GONE);
                         edit.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(), "Photo Updated Successfully", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

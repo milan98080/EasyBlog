@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add New Blog"
+            android:text="Add Blog"
             android:textStyle="bold"
             android:textSize="32sp" />
 
@@ -43,17 +43,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/browse_post_img"
-            android:hint="Browse"
-            android:textSize="15sp"
-            android:background="@drawable/rounded_corner"
-            android:padding="6dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="12dp"
-            />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/browse_post_img"
+                android:text="Browse"
+                android:textSize="18dp"
+                android:padding="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="12dp"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:id="@+id/delete_browsed_image"
+                android:layout_height="wrap_content"
+                android:text=" delete image"
+                android:layout_margin="12dp"
+                android:textSize="18dp"
+                android:backgroundTint="@color/red"
+                android:layout_marginTop="12dp"
+                android:padding="12dp"
+                />
+
+        </LinearLayout>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,11 +77,10 @@
             android:padding="10dp"
             android:layout_marginTop="12dp"
             />
-        </LinearLayout>
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/blod_add_description"
+            android:layout_height="100dp"
+            android:id="@+id/blog_add_description"
             android:hint="Description"
             android:textSize="20sp"
             android:background="@drawable/rounded_corner"

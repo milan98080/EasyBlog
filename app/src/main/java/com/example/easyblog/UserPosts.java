@@ -30,4 +30,6 @@ public class UserPosts {
     public String getDescription() {
         return description;
     }
+
+
 }
