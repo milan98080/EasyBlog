@@ -180,10 +180,10 @@ public class ProfileActivity extends AppCompatActivity {
                 User userProfile = snapshot.getValue(User.class);
                 String usname = userProfile.uname;
                 String usemail = userProfile.uemail;
-                String usimage = userProfile.uimage;
+                pimage = userProfile.uimage;
                 name.setText(usname);
                 email.setText(usemail);
-                Picasso.get().load(usimage).into(image);
+                Picasso.get().load(pimage).into(image);
             }
 
             @Override

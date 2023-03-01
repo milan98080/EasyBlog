@@ -48,7 +48,6 @@ public class AddPostActivity extends AppCompatActivity {
     Uri filepath;
     ImageView img;
     Button browse , post , back , delete_image;
-    Integer count;
     String key , uspostimage;
 
 

@@ -64,7 +64,6 @@ public class EditPostActivity extends AppCompatActivity {
         title = (EditText) findViewById(R.id.blog_add_title);
         description = (EditText) findViewById(R.id.blog_add_description);
         delete_image = (Button) findViewById(R.id.delete_browsed_image);
-
         DatabaseReference user_posts_reference = FirebaseDatabase.getInstance().getReference().child("userposts");
         user_posts_reference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -78,6 +77,7 @@ public class EditPostActivity extends AppCompatActivity {
                 title.setText(uetitle);
                 description.setText(uedescription);
                 Picasso.get().load(ueimage).into(img);
+                uspostimage = userProfile.uimage;
 
             }
 
