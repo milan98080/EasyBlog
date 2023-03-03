@@ -6,7 +6,7 @@ It is a simple blog posting app where you can post your daily activities with pi
 
 ## Demo
 
-Insert gif or link to demo
+https://youtu.be/pFOvnLQ7Ly0
 
 
 ![Logo](https://i.ibb.co/JtkQyJj/logo.png)
